@@ -1,8 +1,8 @@
 class Ship
-  attr_reader :ship_type, :legnth
+  attr_reader :name, :length
   
-  def initialize(ship_type, legnth)
-    @ship_type = ship_type
-    @legnth = legnth
+  def initialize(name, length)
+    @name = name
+    @length = length
   end
 end
