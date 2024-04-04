@@ -14,23 +14,26 @@ RSpec.describe Ship do
   end
 end
 
-it 'has a ship_type & length' do
-    cruiser = Ship.new("Cruiser", 3)
+  describe "Ship attributes" do
+    it 'has a ship_type & length' do
+      cruiser = Ship.new("Cruiser", 3)
+      
+      expect(cruiser.name).to eq("Cruiser")
+      expect(cruiser.length).to eq(3)
+    end
     
-    expect(cruiser.name).to eq("Cruiser")
-    expect(cruiser.length).to eq(3)
-
+    it 'has health' do
+      cruiser = Ship.new("Cruiser", 3)
+      
+      expect(cruiser.health).to eq(3)
+    end
   end
+  
+  it 'can be hit and/or sunk' do
+    cruiser = Ship.new("Cruiser", 3)
 
-
-
-
-
-  # pry(main)> cruiser.health
-  # #=> 3
-
-  # pry(main)> cruiser.sunk?
-  # #=> false
+    expect(cruiser.sunk?).to eq(false)
+  end
 
   # pry(main)> cruiser.hit
 
