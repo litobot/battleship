@@ -33,24 +33,21 @@ end
     cruiser = Ship.new("Cruiser", 3)
 
     expect(cruiser.sunk?).to eq(false)
+
+    cruiser.hit
+  
+    expect(cruiser.health).to eq(2)
+
+    cruiser.hit
+  
+    expect(cruiser.health).to eq(1)
+  
+    expect(cruiser.sunk?).to eq(false)
+  
+    cruiser.hit
+  
+    expect(cruiser.sunk?).to eq(true)
   end
 
-  # pry(main)> cruiser.hit
-
-  # pry(main)> cruiser.health
-  # #=> 2
-
-  # pry(main)> cruiser.hit
-
-  # pry(main)> cruiser.health
-  # #=> 1
-
-  # pry(main)> cruiser.sunk?
-  # #=> false
-
-  # pry(main)> cruiser.hit
-
-  # pry(main)> cruiser.sunk?
-  # #=> true
 
 end
