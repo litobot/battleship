@@ -1,5 +1,6 @@
 require './lib/ship'
 require './lib/cell'
+require 'pry'
 
 RSpec.configure do |config|
   config.formatter = :documentation
@@ -36,3 +37,4 @@ RSpec.describe Cell do
     # expect(cell.empty?).to eq(false)
   end
 end
+

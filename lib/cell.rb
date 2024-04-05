@@ -1,4 +1,5 @@
 class Cell
+
   attr_reader :coordinate,
               :ship
 
@@ -16,6 +17,4 @@ class Cell
   def place_ship(ship) # this may not be best
     @ship = ship
   end
-  
 end
-  

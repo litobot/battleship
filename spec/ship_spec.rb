@@ -1,4 +1,5 @@
 require './lib/ship'
+require 'pry'
 
 RSpec.configure do |config|
   config.formatter = :documentation
@@ -48,6 +49,4 @@ end
   
     expect(cruiser.sunk?).to eq(true)
   end
-
-
 end
