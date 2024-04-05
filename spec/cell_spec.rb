@@ -16,13 +16,16 @@ RSpec.describe Cell do
   
   it 'can place a ship' do
     cell = Cell.new("B4")
-
+    
     expect(cell.ship).to eq(nil)
   end
+  
+  it 'shows cell occupation status' do
+    cell = Cell.new("B4")
 
+    expect(cell.empty?).to eq(true)
+  end
 
-  # pry(main)> cell.empty?
-  # # => true
 
   # pry(main)> cruiser = Ship.new("Cruiser", 3)
   # # => #<Ship:0x00007f84f0891238...>

@@ -6,6 +6,10 @@ class Cell
     @coordinate = coordinate
     @ship = nil
   end
+
+  def empty?
+    true
+  end
 end
 
 # reassign @ship to that ship
