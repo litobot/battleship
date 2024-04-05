@@ -23,9 +23,9 @@ RSpec.describe Cell do
   
   it 'can place a ship' do
     cell = Cell.new("B4")
+
     cruiser = Ship.new("Cruiser", 3)
-    
-    
+
     expect(cell.ship).to eq(nil)
 
     expect(cell.empty?).to eq(true)
@@ -34,7 +34,21 @@ RSpec.describe Cell do
     
     expect(cell.place_ship(cruiser)).to eq(cruiser)
     expect(cell.ship).to eq(cruiser)
-    # expect(cell.empty?).to eq(false)
+    expect(cell.empty?).to eq(false)
+  end
+
+  it 'knows when it has been fired upon' do
+    cell = Cell.new("B4")
+
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell.place_ship(cruiser)
+    expect(cell.fired_upon?).to eq(false)
+
+    cell.fired_upon
+    expect(cell.fired_upon?).to eq(true)
+    expect(cell.ship.health).to eq(2)
+
   end
 end
 

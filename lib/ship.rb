@@ -1,5 +1,5 @@
 class Ship
-  
+
   attr_reader :name, 
               :length, 
               :health
@@ -16,5 +16,5 @@ class Ship
 
   def hit
     @health -= 1
-  end
+  end #This method is returning  a value to the console in pry when it is called. when it shouldnt for some reason
 end

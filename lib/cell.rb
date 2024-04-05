@@ -1,16 +1,21 @@
 class Cell
 
   attr_reader :coordinate,
-              :ship
+              :ship,
+              :fired_upon
 
   def initialize(coordinate)
     @coordinate = coordinate
-    @ship = nil
+    @ship
+    @fired_upon = false
   end
 
   def empty?
-    @ship == nil
-    true
+    if @ship == nil
+      true
+    else
+      false
+    end
     # want to show `false` once ship is placed
   end
 
