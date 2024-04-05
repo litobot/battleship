@@ -1,8 +1,19 @@
 class Ship
-  attr_reader :ship_type, :legnth
+  attr_reader :name, 
+              :length, 
+              :health
   
-  def initialize(ship_type, legnth)
-    @ship_type = ship_type
-    @legnth = legnth
+  def initialize(name, length)
+    @name = name
+    @length = length
+    @health = 3
+  end
+
+  def sunk?
+    @health <= 0
+  end
+
+  def hit
+    @health -= 1
   end
 end
