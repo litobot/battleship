@@ -18,24 +18,19 @@ RSpec.describe Cell do
     cell = Cell.new("B4")
     
     expect(cell.ship).to eq(nil)
-  end
-  
-  it 'shows cell occupation status' do
+
     cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
 
     expect(cell.empty?).to eq(true)
+    expect(cell.place_ship(cruiser)).to eq(cruiser) ### @ship = whatever ship is coming in
+  
+    # expect(cell.ship).to eq(cruiser)
+  
+    # pry(main)> cell.empty?
+    # # => false
   end
 
 
-  # pry(main)> cruiser = Ship.new("Cruiser", 3)
-  # # => #<Ship:0x00007f84f0891238...>
-
-  # pry(main)> cell.place_ship(cruiser) # @ship = whatever ship is coming in
-
-  # pry(main)> cell.ship
-  # # => #<Ship:0x00007f84f0891238...>
-
-  # pry(main)> cell.empty?
-  # # => false
 
 end

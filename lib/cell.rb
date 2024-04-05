@@ -10,6 +10,11 @@ class Cell
   def empty?
     true
   end
+
+  def place_ship(ship)
+    ship
+  end
+
 end
 
 # reassign @ship to that ship
