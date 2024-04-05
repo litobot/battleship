@@ -37,7 +37,7 @@ RSpec.describe Cell do
     expect(cell.empty?).to eq(false)
   end
 
-  it 'knows when it has been fired upon' do
+  it 'knows when it has been fired upon and subtracts health if ship was hit' do
     cell = Cell.new("B4")
 
     cruiser = Ship.new("Cruiser", 3)
