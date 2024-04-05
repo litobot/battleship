@@ -14,11 +14,11 @@ RSpec.describe Cell do
     end
   end
   
-  # it 'can place a ship' do
-  #   cell = Cell.new("B4")
+  it 'can place a ship' do
+    cell = Cell.new("B4")
 
-  #   expect(cell.ship).to eq(nil)
-  # end
+    expect(cell.ship).to eq(nil)
+  end
 
 
   # pry(main)> cell.empty?
