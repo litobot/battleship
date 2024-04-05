@@ -14,23 +14,25 @@ RSpec.describe Cell do
     end
   end
   
+  it 'shows cell coordinate' do
+    cell = Cell.new("B4")
+    
+    expect(cell.coordinate).to eq("B4")
+  end
+  
   it 'can place a ship' do
     cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    
     
     expect(cell.ship).to eq(nil)
 
-    cell = Cell.new("B4")
-    cruiser = Ship.new("Cruiser", 3)
-
     expect(cell.empty?).to eq(true)
-    expect(cell.place_ship(cruiser)).to eq(cruiser) ### @ship = whatever ship is coming in
-  
-    # expect(cell.ship).to eq(cruiser)
-  
-    # pry(main)> cell.empty?
-    # # => false
+
+    cell.place_ship(cruiser)
+    
+    expect(cell.place_ship(cruiser)).to eq(cruiser)
+    expect(cell.ship).to eq(cruiser)
+    # expect(cell.empty?).to eq(false)
   end
-
-
-
 end
