@@ -1,5 +1,6 @@
 require './lib/ship'
 require './lib/cell'
+require 'pry'
 
 RSpec.configure do |config|
   config.formatter = :documentation
@@ -22,9 +23,9 @@ RSpec.describe Cell do
   
   it 'can place a ship' do
     cell = Cell.new("B4")
+
     cruiser = Ship.new("Cruiser", 3)
-    
-    
+
     expect(cell.ship).to eq(nil)
 
     expect(cell.empty?).to eq(true)
@@ -33,6 +34,48 @@ RSpec.describe Cell do
     
     expect(cell.place_ship(cruiser)).to eq(cruiser)
     expect(cell.ship).to eq(cruiser)
-    # expect(cell.empty?).to eq(false)
+    expect(cell.empty?).to eq(false)
+  end
+
+  it 'knows when it has been fired upon and subtracts health if ship was hit' do
+    cell = Cell.new("B4")
+
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell.place_ship(cruiser)
+    expect(cell.fired_upon?).to eq(false)
+
+    cell.fire_upon
+    expect(cell.fired_upon?).to eq(true)
+    expect(cell.ship.health).to eq(2)
+  end
+
+  it 'Will render a string based on conditions' do
+    cell_1 = Cell.new("B4")
+    cell_1.render
+    # binding.pry
+    expect(cell_1.render).to eq(".")
+
+    cell_1.fire_upon
+    cell_1.render
+    expect(cell_1.render).to eq("M")
+    
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1.place_ship(cruiser)
+    cell_1.fire_upon
+    expect(cell_1.render).to eq("H")
+
+    cell_1.fire_upon
+    cell_1.fire_upon
+    expect(cell_1.render).to eq("X")
+  end
+
+  it ' Will render S if we want to show a ship voluntarily' do
+    cell_1 = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1.place_ship(cruiser)
+
+    expect(cell_1.render(true)).to eq("S")
   end
 end
+
