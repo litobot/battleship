@@ -68,6 +68,8 @@ RSpec.describe Cell do
     cell_1.fire_upon
     cell_1.fire_upon
     expect(cell_1.render).to eq("X")
+
+    binding.pry
   end
 
   it ' Will render S if we want to show a ship voluntarily' do
