@@ -13,6 +13,7 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board).to be_an_instance_of(Board)
+      binding.pry
     end
 
   end
