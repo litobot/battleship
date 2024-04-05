@@ -13,17 +13,17 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board).to be_an_instance_of(Board)
-      binding.pry
+
     end
   end
 
   describe '#validate_coordinate?' do
-    it 'can validate coordinates'
+    it 'can validate coordinates' do
       board = Board.new
 
-      board.validate_coordinate?("A1")
+      expect(board.validate_coordinate?("A1")).to eq(true)
+      expect(board.validate_coordinate?("G7")).to eq(false)
 
-      expect(board.validate_coordinate?).to eq(true)
     end 
   end
 
