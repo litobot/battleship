@@ -30,4 +30,16 @@ class Cell
       @fired_upon = true
     end
   end
+
+  def render(reveal_ship: false)
+    if @ship.nil? && @fired_upon == false
+      "."
+    elsif @ship.nil? && @fired_upon == true
+      "M"
+    elsif !ship.nil? && @fired_upon == true && ship.health > 0
+      "H"
+    elsif !ship.nil? && @fired_upon == true && ship.health == 0
+      "X"
+    end
+  end
 end

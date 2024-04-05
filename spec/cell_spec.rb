@@ -53,7 +53,7 @@ RSpec.describe Cell do
   it 'Will render a string based on conditions' do
     cell_1 = Cell.new("B4")
     cell_1.render
-
+    # binding.pry
     expect(cell_1.render).to eq(".")
 
     cell_1.fire_upon
@@ -68,6 +68,14 @@ RSpec.describe Cell do
     cell_1.fire_upon
     cell_1.fire_upon
     expect(cell_1.render).to eq("X")
+  end
+
+  it ' Will render S if we want to show a ship voluntarily' do
+    cell_1 = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1.place_ship(cruiser)
+
+    expect(cell_1.render(true)).to eq("S")
   end
 end
 
