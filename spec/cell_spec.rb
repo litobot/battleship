@@ -48,7 +48,13 @@ RSpec.describe Cell do
     cell.fired_upon
     expect(cell.fired_upon?).to eq(true)
     expect(cell.ship.health).to eq(2)
+  end
 
+  it 'Will render a . if it has not been fired upon' do
+    cell_1 = Cell.new("B4")
+    cell_1.render
+
+    expect(cell_1.render).to eq(".")
   end
 end
 

@@ -12,12 +12,6 @@ class Cell
 
   def empty?
     @ship.nil?
-    # if @ship == nil
-    #   true
-    # else
-    #   false
-    # end
-    # # want to show `false` once ship is placed
   end
 
   def place_ship(ship) # this may not be best
