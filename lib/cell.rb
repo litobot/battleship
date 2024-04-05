@@ -31,15 +31,25 @@ class Cell
     end
   end
 
-  def render(reveal_ship: false)
-    if @ship.nil? && @fired_upon == false
-      "."
-    elsif @ship.nil? && @fired_upon == true
-      "M"
-    elsif !ship.nil? && @fired_upon == true && ship.health > 0
-      "H"
-    elsif !ship.nil? && @fired_upon == true && ship.health == 0
-      "X"
+  def render(reveal_ship = false)
+    if !@ship.nil?
+      if @fired_upon
+        if @ship.health > 0
+          "H" # Hit but not sunk
+        else
+          "X" # Sunk
+        end
+      elsif reveal_ship
+        "S" # Ship present but not fired upon, revealed voluntarily
+      else
+        "." # Ship present but not revealed
+      end
+    elsif @fired_upon
+      "M" # Miss
+    else
+      "." # Empty cell or ship hidden
     end
   end
+  
+  
 end
