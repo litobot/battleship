@@ -45,16 +45,29 @@ RSpec.describe Cell do
     cell.place_ship(cruiser)
     expect(cell.fired_upon?).to eq(false)
 
-    cell.fired_upon
+    cell.fire_upon
     expect(cell.fired_upon?).to eq(true)
     expect(cell.ship.health).to eq(2)
   end
 
-  it 'Will render a . if it has not been fired upon' do
+  it 'Will render a string based on conditions' do
     cell_1 = Cell.new("B4")
     cell_1.render
 
     expect(cell_1.render).to eq(".")
+
+    cell_1.fire_upon
+    cell_1.render
+    expect(cell_1.render).to eq("M")
+    
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1.place_ship(cruiser)
+    cell_1.fire_upon
+    expect(cell_1.render).to eq("H")
+
+    cell_1.fire_upon
+    cell_1.fire_upon
+    expect(cell_1.render).to eq("X")
   end
 end
 
