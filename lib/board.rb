@@ -30,7 +30,7 @@ class Board
   def valid_placement?(ship, placement)
     # First, check if the placement length matches the ship's length.
     return false unless ship.length == placement.size
-
+    binding.pry
     # Then, check if every coordinate in the placement array is valid.
     placement.all? { |coordinate| validate_coordinate?(coordinate) }
   end

@@ -38,6 +38,19 @@ RSpec.describe Board do
         expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
         expect(board.valid_placement?(cruiser, ["B2", "B3", "B4"])).to eq(true)
         expect(board.valid_placement?(submarine, ["C3", "C4"])).to eq(true)
-      end 
+      end
+
+      it 'will deny a ship placement if coordiantes are identical' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+
+        
+
+        expect(board.valid_placement?(cruiser, ["A1", "A1"])).to eq(false)
+        expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
+        expect(board.valid_placement?(cruiser, ["B2", "B2", "B3"])).to eq(false)
+        expect(board.valid_placement?(submarine, ["C3", "C3"])).to eq(false)
+      end
   end
 end
