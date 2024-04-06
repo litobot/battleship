@@ -28,9 +28,12 @@ class Board
   end
 
   def valid_placement?(ship, placement)
+    # Check for duplicate coordinates.
+    return false unless placement.size == placement.uniq.size
+
     # First, check if the placement length matches the ship's length.
     return false unless ship.length == placement.size
-    binding.pry
+
     # Then, check if every coordinate in the placement array is valid.
     placement.all? { |coordinate| validate_coordinate?(coordinate) }
   end
