@@ -1,5 +1,7 @@
 class Board
+
   attr_reader :cells
+
   def initialize
     @cells = { 
       "A1" => Cell.new("A1"),
@@ -20,4 +22,18 @@ class Board
       "D4" => Cell.new("D4")
   }
   end
+
+  def validate_coordinate?(coordinate)
+    @cells.has_key?(coordinate)
+  end
+
+  def valid_placement?(ship, placement)
+    # First, check if the placement length matches the ship's length.
+    return false unless ship.length == placement.size
+
+    # Then, check if every coordinate in the placement array is valid.
+    placement.all? { |coordinate| validate_coordinate?(coordinate) }
+  end
+
 end
+
