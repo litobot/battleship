@@ -73,5 +73,15 @@ RSpec.describe Board do
         expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
         expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
       end
-  end
+
+      it 'can make sure rows are consecutive' do
+        board = Board.new
+        rowAB = ["A1", "B1"]
+        rowAD = ["A1", "C1"]
+
+        expect(board.consecutive_rows?(rowAB)).to eq(true)
+        expect(board.consecutive_rows?(rowAD)).to eq(false)
+
+      end
+    end
 end
