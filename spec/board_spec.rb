@@ -76,11 +76,21 @@ RSpec.describe Board do
 
       it 'can make sure rows are consecutive' do
         board = Board.new
-        rowAB = ["A1", "B1"]
-        rowAD = ["A1", "C1"]
+        rowsAB = ["A", "B"]
+        rowsAD = ["A", "C"]
 
-        expect(board.consecutive_rows?(rowAB)).to eq(true)
-        expect(board.consecutive_rows?(rowAD)).to eq(false)
+        expect(board.consecutive_rows?(rowsAB)).to eq(true)
+        expect(board.consecutive_rows?(rowsAD)).to eq(false)
+
+      end
+
+      it 'can make sure columns are consecutive' do
+        board = Board.new
+        cols12 = ["1", "2"]
+        cols13 = ["1", "3"]
+
+        expect(board.consecutive_columns?(cols12)).to eq(true)
+        expect(board.consecutive_columns?(cols13)).to eq(false)
 
       end
     end
