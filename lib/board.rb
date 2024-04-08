@@ -23,29 +23,47 @@ class Board
     }
   end
 
+  # Simply compares coordiate passed as argument to see if it matches values in @cells hash
   def validate_coordinate?(coordinate)
     @cells.has_key?(coordinate)
   end
 
   def valid_placement?(ship, placement)
 
-    # Check if every coordinate in the placement array is valid.
+    # Check if every coordinate in the placement array is valid (on game board).
     placement.all? { |coordinate| validate_coordinate?(coordinate) }
 
     # Check for duplicate coordinates.
+    # Are the amount of unique coordinates within the placement array equal to 
+      # the original amount of coordiantes given within the placement array?
     return false unless placement.size == placement.uniq.size
 
     # First, check if the placement length matches the ship's length.
+    # Does the length of the ship passed in as an argument match coordinates given 
+      # where they are to be placed on the board?
     return false unless ship.length == placement.size
 
+    # This code divides coordinate values passed through `placement` into their 
+      # constiuent parts of rows and columns by splitting up the alphanumeric key pairs
+      # and assigning the letters to row names & integers to columns and placing
+      # them in a new array via #map.
+        # Given: (cruiser, ["B2", "B3", "B4"])
+          # rows = ["B", "B", "B"]
+          # cols = ["2", "3", "4"]
     rows, cols = placement.map { |coord| [coord[0], coord[1..-1]] }.transpose
 
-    # Check if either all rows are the same (vertical placement) or all columns are the same (horizontal placement).
+    # This `if` conditional prevents placing ships diagonally by confirming coordinate
+      # orientation to be either vertical or horizontal. This is done by ensuring
+      # coordinates fall across one axis only - either x or y, not both (diagonal).
     if rows.uniq.size == 1
       # Vertical placement, check consecutive columns.
+      # If there is only one unique coordinate value within the rows array (["B", "B", "B"]),
+        # the ship is vertically oriented.
       consecutive_columns?(cols)
     elsif cols.uniq.size == 1
       # Horizontal placement, check consecutive rows.
+      # If there is only one unique coordinate value within the cols array (["2", "3", "4"]),
+        # the ship is oriented horizontally.
       consecutive_rows?(rows)
     else
       # Neither all rows nor all columns are the same, so it's not a valid placement.
@@ -66,28 +84,12 @@ class Board
   end
 
   def place(ship, cells)
+    # This method iterates over each array element passed in through `cells` argument
+      # and calls the #place_ship method to put the ship object in each one.
+      # I don't understand why the test file wants us to assign coordinates to cell_1/2/3.
     cells.each do |coordinate|
       @cells[coordinate].place_ship(ship)
-      # I used GPT to help me with this.  I don't know if we should use this
-        # until we understand it fully.  I don't get it yet, even though I knew
-        # we needed an enumerable to solve this.
-          # I think it basically iterates over each array element passed in `cells`
-            # and calls the #place_ship method to put the ship object in each one.
     end
-    # How to get cell_1, cell_2, cell_3 to hold `cruiser` value?
-  
-    # This method assigns the ship to all of the cells it will occupy
-      # These are passed as an array through the `cells` argument.
-    
-    # ACTUALLY....
-    # Before #place is called, the value of the variable cell_1 == "A1" 
-      # "A1" is the key in the @cells hash that holds a Cell object.
-    # We need to reassign the key value from each coordinate value from the @cells
-      # hash to = the Ship object we're passing in (cruiser).
-    
-    # We need an enumerable to do this.
   end
-
-  
 end
 
