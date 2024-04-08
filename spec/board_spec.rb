@@ -88,10 +88,44 @@ RSpec.describe Board do
         board = Board.new
         cols12 = ["1", "2"]
         cols13 = ["1", "3"]
-
+        
         expect(board.consecutive_columns?(cols12)).to eq(true)
         expect(board.consecutive_columns?(cols13)).to eq(false)
+        
+      end
+      
+      it 'shows ships cannot overlap' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        
+        board.place(cruiser, ["A1", "A2", "A3"])
 
+        cell_1 = board.cells["A1"]    
+        cell_2 = board.cells["A2"]
+        cell_3 = board.cells["A3"]    
+
+        expect(cell_1.ship).to eq(cruiser)
+        expect(cell_2.ship).to eq(cruiser)
+        expect(cell_3.ship).to eq(cruiser)
+        expect(cell_3.ship == cell_2.ship).to eq(true)
+      end
+
+      it 'prevents against overlapping ship placement' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2) 
+
+        # Placing the cruiser on these coordinates should render them unavailable
+          # for further placement by the submarine.
+        # How do we tag these coordinates as "unavailable"?
+          # Do we modify the original @cells hash key/values with "S"?
+            # --> So that when they are passed a second time they no longer exist??
+              # --> And therefore cannot be validated?
+                # Is that why we needed the bit above with cell_1/2/3?
+        board.place(cruiser, ["A1", "A2", "A3"])
+
+        # "A1" is already occupied and this attempt should return `false`.
+        expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
       end
     end
 end
