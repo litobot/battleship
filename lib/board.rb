@@ -1,3 +1,6 @@
+require './cell'
+require './ship'
+
 class Board
 
   attr_reader :cells
@@ -110,9 +113,7 @@ class Board
       "B #{@cells["B1"].render} #{@cells["B2"].render} #{@cells["B3"].render} #{@cells["B4"].render} \n" \
       "C #{@cells["C1"].render} #{@cells["C2"].render} #{@cells["C3"].render} #{@cells["C4"].render} \n" \
       "D #{@cells["D1"].render} #{@cells["D2"].render} #{@cells["D3"].render} #{@cells["D4"].render} \n" 
-
     end
-
   end
 
 end
