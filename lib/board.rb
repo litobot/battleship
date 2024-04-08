@@ -64,5 +64,30 @@ class Board
     # Check if columns are consecutive numbers.
     cols.map(&:to_i).each_cons(2).all? { |x, y| y == x + 1 }
   end
+
+  def place(ship, cells)
+    cells.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+      # I used GPT to help me with this.  I don't know if we should use this
+        # until we understand it fully.  I don't get it yet, even though I knew
+        # we needed an enumerable to solve this.
+          # I think it basically iterates over each array element passed in `cells`
+            # and calls the #place_ship method to put the ship object in each one.
+    end
+    # How to get cell_1, cell_2, cell_3 to hold `cruiser` value?
+  
+    # This method assigns the ship to all of the cells it will occupy
+      # These are passed as an array through the `cells` argument.
+    
+    # ACTUALLY....
+    # Before #place is called, the value of the variable cell_1 == "A1" 
+      # "A1" is the key in the @cells hash that holds a Cell object.
+    # We need to reassign the key value from each coordinate value from the @cells
+      # hash to = the Ship object we're passing in (cruiser).
+    
+    # We need an enumerable to do this.
+  end
+
+  
 end
 
