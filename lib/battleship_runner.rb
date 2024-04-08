@@ -22,4 +22,4 @@ def start_game
     
     #     = set cruiser to random but valid coordinates
     #     set submarine to random but valid coordiantes
-end
+end 

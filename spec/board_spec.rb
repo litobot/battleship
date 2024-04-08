@@ -157,7 +157,7 @@ RSpec.describe Board do
         cell_2.fire_upon
         cell_3.fire_upon
         cell_4.fire_upon
-        
+          
         expect(board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
         expect(board.render(true)).to eq("  1 2 3 4 \nA H S S . \nB . . . M \nC X . . . \nD X . . . \n")
       end
