@@ -25,17 +25,18 @@ class Board
 
   # Simply compares coordiate passed as argument to see if it matches values in @cells hash
   def validate_coordinate?(coordinate)
-    @cells.has_key?(coordinate)
+    @cells.has_key?(coordinate) && @cells[coordinate].empty?
   end
-
+  
   def valid_placement?(ship, placement)
-
+    
     # Check if every coordinate in the placement array is valid (on game board).
-    placement.all? { |coordinate| validate_coordinate?(coordinate) }
-
+    return false unless placement.all? { |coordinate| validate_coordinate?(coordinate) }
+    
     # Check for duplicate coordinates.
     # Are the amount of unique coordinates within the placement array equal to 
-      # the original amount of coordiantes given within the placement array?
+    # the original amount of coordiantes given within the placement array?
+    # require 'pry'; binding.pry
     return false unless placement.size == placement.uniq.size
 
     # First, check if the placement length matches the ship's length.
@@ -87,9 +88,32 @@ class Board
     # This method iterates over each array element passed in through `cells` argument
       # and calls the #place_ship method to put the ship object in each one.
       # I don't understand why the test file wants us to assign coordinates to cell_1/2/3.
-    cells.each do |coordinate|
+    
+      cells.each do |coordinate|
       @cells[coordinate].place_ship(ship)
+      # require 'pry'; binding.pry
     end
+
   end
+
+  def render(show = false)
+    if show == true
+      "  1 2 3 4 \n" \
+      "A #{@cells["A1"].render(true)} #{@cells["A2"].render(true)} #{@cells["A3"].render(true)} #{@cells["A4"].render(true)} \n" \
+      "B #{@cells["B1"].render(true)} #{@cells["B2"].render(true)} #{@cells["B3"].render(true)} #{@cells["B4"].render(true)} \n" \
+      "C #{@cells["C1"].render(true)} #{@cells["C2"].render(true)} #{@cells["C3"].render(true)} #{@cells["C4"].render(true)} \n" \
+      "D #{@cells["D1"].render(true)} #{@cells["D2"].render(true)} #{@cells["D3"].render(true)} #{@cells["D4"].render(true)} \n" 
+      # require 'pry'; binding.pry
+    else
+      "  1 2 3 4 \n" \
+      "A #{@cells["A1"].render} #{@cells["A2"].render} #{@cells["A3"].render} #{@cells["A4"].render} \n" \
+      "B #{@cells["B1"].render} #{@cells["B2"].render} #{@cells["B3"].render} #{@cells["B4"].render} \n" \
+      "C #{@cells["C1"].render} #{@cells["C2"].render} #{@cells["C3"].render} #{@cells["C4"].render} \n" \
+      "D #{@cells["D1"].render} #{@cells["D2"].render} #{@cells["D3"].render} #{@cells["D4"].render} \n" 
+
+    end
+
+  end
+
 end
 
