@@ -140,5 +140,26 @@ RSpec.describe Board do
         expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
         expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
       end
+
+      it 'shows the board is registering hits ' do
+        board = Board.new
+        cruiser = Ship.new("Cruiser", 3)
+        submarine = Ship.new("Submarine", 2)
+        cell_1 = board.cells["A1"]
+        cell_2 = board.cells["B4"]
+        cell_3 = board.cells["C1"]
+        cell_4 = board.cells["D1"]
+
+        board.place(cruiser, ["A1", "A2", "A3"])
+        board.place(submarine, ["C1", "D1"])
+
+        cell_1.fire_upon
+        cell_2.fire_upon
+        cell_3.fire_upon
+        cell_4.fire_upon
+        
+        expect(board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
+        expect(board.render(true)).to eq("  1 2 3 4 \nA H S S . \nB . . . M \nC X . . . \nD X . . . \n")
+      end
     end
 end
