@@ -124,8 +124,11 @@ RSpec.describe Board do
                 # Is that why we needed the bit above with cell_1/2/3?
         board.place(cruiser, ["A1", "A2", "A3"])
 
+
         # "A1" is already occupied and this attempt should return `false`.
         expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
       end
     end
+
+
 end

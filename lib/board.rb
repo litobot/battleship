@@ -25,17 +25,18 @@ class Board
 
   # Simply compares coordiate passed as argument to see if it matches values in @cells hash
   def validate_coordinate?(coordinate)
-    @cells.has_key?(coordinate)
+    @cells.has_key?(coordinate) && @cells[coordinate].empty?
   end
-
+  
   def valid_placement?(ship, placement)
-
+    
     # Check if every coordinate in the placement array is valid (on game board).
-    placement.all? { |coordinate| validate_coordinate?(coordinate) }
-
+    return false unless placement.all? { |coordinate| validate_coordinate?(coordinate) }
+    
     # Check for duplicate coordinates.
     # Are the amount of unique coordinates within the placement array equal to 
-      # the original amount of coordiantes given within the placement array?
+    # the original amount of coordiantes given within the placement array?
+    # require 'pry'; binding.pry
     return false unless placement.size == placement.uniq.size
 
     # First, check if the placement length matches the ship's length.
@@ -87,9 +88,12 @@ class Board
     # This method iterates over each array element passed in through `cells` argument
       # and calls the #place_ship method to put the ship object in each one.
       # I don't understand why the test file wants us to assign coordinates to cell_1/2/3.
-    cells.each do |coordinate|
+    
+      cells.each do |coordinate|
       @cells[coordinate].place_ship(ship)
+      # require 'pry'; binding.pry
     end
+
   end
 end
 
