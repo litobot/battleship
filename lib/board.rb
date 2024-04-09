@@ -1,5 +1,5 @@
-require './cell'
-require './ship'
+require_relative './cell'
+require_relative './ship'
 
 class Board
 
