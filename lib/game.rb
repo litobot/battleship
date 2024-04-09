@@ -19,7 +19,6 @@ class Game
         cords = board_cells.sample(num_of_cords)
         until @cpu_board.valid_placement?(@cpu_cruiser, cords)
         cords = board_cells.sample(num_of_cords)
-        binding.pry    
         end
         
     end

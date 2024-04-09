@@ -7,12 +7,6 @@ require 'pry'
 game = Game.new
 game.start 
 
-# puts "Welcome to the Battleship Game!"
-# puts 'Enter p to play. Enter q to quit.'
-
-
-
-
 # def play
 # # CPU Placement phase
 #     # Computer.play
