@@ -73,7 +73,6 @@ class Board
       # Neither all rows nor all columns are the same, so it's not a valid placement.
       false
     end
-
   end
 
   def consecutive_rows?(rows)
