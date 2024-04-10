@@ -117,17 +117,12 @@ class Game
     
     def full_turn
         until @player_cruiser.health == 0 && @player_submarine.health == 0 || @cpu_cruiser.health == 0 && @cpu_submarine.health == 0
-            puts "=============COMPUTER BOARD============= \n" \
-            "A #{@cpu_board.cells["A1"].render} #{@cpu_board.cells["A2"].render} #{@cpu_board.cells["A3"].render} #{@cpu_board.cells["A4"].render} \n" \
-            "B #{@cpu_board.cells["B1"].render} #{@cpu_board.cells["B2"].render} #{@cpu_board.cells["B3"].render} #{@cpu_board.cells["B4"].render} \n" \
-            "C #{@cpu_board.cells["C1"].render} #{@cpu_board.cells["C2"].render} #{@cpu_board.cells["C3"].render} #{@cpu_board.cells["C4"].render} \n" \
-            "D #{@cpu_board.cells["D1"].render} #{@cpu_board.cells["D2"].render} #{@cpu_board.cells["D3"].render} #{@cpu_board.cells["D4"].render} \n" \
-            "==============PLAYER BOARD============== \n" \
-            "A #{@player_board.cells["A1"].render} #{@player_board.cells["A2"].render} #{@player_board.cells["A3"].render} #{@player_board.cells["A4"].render} \n" \
-            "B #{@player_board.cells["B1"].render} #{@player_board.cells["B2"].render} #{@player_board.cells["B3"].render} #{@player_board.cells["B4"].render} \n" \
-            "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
-            "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
+            puts "=============COMPUTER BOARD============= \n" 
+            puts @cpu_board.render
             
+            puts "==============PLAYER BOARD============== \n" 
+            puts @player_board.render(true)
+
             player_shot
             cpu_shot
             

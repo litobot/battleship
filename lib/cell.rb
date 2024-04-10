@@ -14,7 +14,7 @@ class Cell
     @ship.nil?
   end
 
-  def place_ship(ship) # this may not be best
+  def place_ship(ship)
     @ship = ship
   end
 
@@ -38,32 +38,10 @@ class Cell
       "H"
     elsif empty? && fired_upon
       "M"
-    elsif reveal_ship
+    elsif reveal_ship && !empty?
       "S"
     else 
       "."
     end
   end
-
-  # def render(reveal_ship = false)
-  #   if !@ship.nil?
-  #     if @fired_upon
-  #       if @ship.health > 0
-  #         "H" # Hit but not sunk
-  #       else
-  #         "X" # Sunk
-  #       end
-  #     elsif reveal_ship
-  #       "S" # Ship present but not fired upon, revealed voluntarily
-  #     else
-  #       "." # Ship present but not revealed
-  #     end
-  #   elsif @fired_upon
-  #     "M" # Miss
-  #   else
-  #     "." # Empty cell or ship hidden
-  #   end
-  # end
-  
-  
 end
