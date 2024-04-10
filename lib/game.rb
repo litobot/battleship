@@ -3,10 +3,10 @@ require 'pry'
 class Game
 
     attr_reader :player_cruiser_coords_valid,
-                :player_submarine_coords_valid
-                :player_target_coords_valid
-                :cpu_cruiser_location
-                :cpu_submarine_location
+                :player_submarine_coords_valid,
+                :player_target_coords_valid,
+                :cpu_cruiser_location,
+                :cpu_submarine_location,
                 :cpu_shot_valid
 
     def initialize
@@ -49,19 +49,7 @@ class Game
         
     end
     
-    def start
-        puts "Welcome to the Battleship Game!"
-        puts 'Enter p to play. Enter q to quit.'
-        
-        start_answer = gets.chomp
-        if start_answer == 'p'
-            play
-        elsif start_answer == 'q'
-            puts "Thanks for playing!"
-        end
     
-    end
-
     def player_cruiser_placement 
         puts "Enter the squares for the Cruiser (3 spaces) (ie: A1 A2 A3): "    
         player_cruiser_coords = gets.chomp.upcase.split(" ")
@@ -72,7 +60,7 @@ class Game
         end 
         @player_cruiser_coords_valid = player_cruiser_coords
     end
-
+    
     def player_submarine_placement 
         puts "Enter the squares for the subamrine (2 spaces) (ie: A1 A2): "    
         player_submarine_coords = gets.chomp.upcase.split(" ")
@@ -83,7 +71,7 @@ class Game
         end
         @player_submarine_coords_valid = player_submarine_coords
     end
-
+    
     def player_shot
         puts "Enter the coordinates of the shot (ie: A1): "
         player_target_coords = gets.chomp.upcase
@@ -94,59 +82,42 @@ class Game
         @player_target_coords_valid = player_target_coords
         @cpu_board.cells[@player_target_coords_valid].fire_upon
     end
-
+    
     def cpu_shot
         all_coordinates = @player_board.cells.keys
-
+        
         unhit_coordinates = all_coordinates.reject do |coord|
             @player_board.cells[coord].fired_upon?
         end
-
+        
         target = unhit_coordinates.sample
         @player_board.cells[target].fire_upon
         @cpu_shot_valid = target
     end
-
-    def player_turn_result
-        if @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
-            puts "Your shot on #{@player_target_coords_valid} was a hit!"
-        elsif @cpu_cruiser_location.include?(@player_target_coords_valid) && @cpu_cruiser.sunk? || @cpu_submarine_location.include?(@player_target_coords_valid) && @cpu_submarine.sunk?
+    
+    def player_turn_result 
+        if @cpu_cruiser_location.include?(@player_target_coords_valid) && @cpu_cruiser.sunk? || @cpu_submarine_location.include?(@player_target_coords_valid) && @cpu_submarine.sunk?
             puts "Your shot on #{@player_target_coords_valid} was a sunk ship!"
+        elsif @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
+            puts "Your shot on #{@player_target_coords_valid} was a hit!"
         else
             puts "Your shot on #{@player_target_coords_valid} was a miss!"
         end
     end
-
+    
     def cpu_turn_result
-        if @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
-            puts "My shot on #{@cpu_shot_valid} was a hit!"
-        elsif @player_cruiser_coords_valid.include?(@cpu_shot_valid) && @player_cruiser.sunk? || @player_submarine_coords_valid.include?(@cpu_shot_valid) && @player_submarine.sunk?
+        if @player_cruiser_coords_valid.include?(@cpu_shot_valid) && @player_cruiser.sunk? || @player_submarine_coords_valid.include?(@cpu_shot_valid) && @player_submarine.sunk?
             puts "My shot on #{@cpu_shot_valid} was a sunk ship!"
+        elsif @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
+            puts "My shot on #{@cpu_shot_valid} was a hit!"
         else
-            puts "My shot on #{@pcpu_shot_valid} was a miss!"
+            puts "My shot on #{@cpu_shot_valid} was a miss!"
         end
     end
-
-    def play
-        
-        cpu_placement
-
-        puts "I have laid out my ships on the grid. \n" \
-            "You now need to lay out your two ships on the grid. \n" \
-            "The Cruiser is three units long and the Submarine is two units long. \n" \
-            "  1 2 3 4 \n" \
-            "A #{@player_board.cells["A1"].render} #{@player_board.cells["A2"].render} #{@player_board.cells["A3"].render} #{@player_board.cells["A4"].render} \n" \
-            "B #{@player_board.cells["B1"].render} #{@player_board.cells["B2"].render} #{@player_board.cells["B3"].render} #{@player_board.cells["B4"].render} \n" \
-            "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
-            "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
     
-        player_cruiser_placement 
-        @player_board.place(@player_cruiser, @player_cruiser_coords_valid)
-        
-        player_submarine_placement
-        @player_board.place(@player_submarine, @player_submarine_coords_valid)
-        
-        puts "=============COMPUTER BOARD============= \n" \
+    def full_turn
+        until @player_cruiser.health == 0 && @player_submarine.health == 0 || @cpu_cruiser.health == 0 && @cpu_submarine.health == 0
+            puts "=============COMPUTER BOARD============= \n" \
             "A #{@cpu_board.cells["A1"].render} #{@cpu_board.cells["A2"].render} #{@cpu_board.cells["A3"].render} #{@cpu_board.cells["A4"].render} \n" \
             "B #{@cpu_board.cells["B1"].render} #{@cpu_board.cells["B2"].render} #{@cpu_board.cells["B3"].render} #{@cpu_board.cells["B4"].render} \n" \
             "C #{@cpu_board.cells["C1"].render} #{@cpu_board.cells["C2"].render} #{@cpu_board.cells["C3"].render} #{@cpu_board.cells["C4"].render} \n" \
@@ -156,14 +127,53 @@ class Game
             "B #{@player_board.cells["B1"].render} #{@player_board.cells["B2"].render} #{@player_board.cells["B3"].render} #{@player_board.cells["B4"].render} \n" \
             "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
             "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
+            
+            player_shot
+            cpu_shot
+            
+            player_turn_result
+            cpu_turn_result
+        end
+        if @player_cruiser.health == 0 && @player_submarine.health == 0
+            puts "I won!"
+        else @cpu_cruiser.health == 0 && @cpu_submarine.health == 0
+            puts "You won!"
+        end
+    end
+    
+    def start
+        puts "Welcome to the Battleship Game!"
+        puts 'Enter p to play. Enter q to quit.'
         
-        player_shot
-        cpu_shot
+        start_answer = gets.chomp
+        if start_answer == 'p'
+            play
+        elsif start_answer == 'q'
+            puts "Thanks for playing!"
+        end
+    end
 
-        player_turn_result
-        cpu_turn_result
-
-
-
+    def play
+        
+        cpu_placement
+        
+        puts "I have laid out my ships on the grid. \n" \
+        "You now need to lay out your two ships on the grid. \n" \
+        "The Cruiser is three units long and the Submarine is two units long. \n" \
+        "  1 2 3 4 \n" \
+        "A #{@player_board.cells["A1"].render} #{@player_board.cells["A2"].render} #{@player_board.cells["A3"].render} #{@player_board.cells["A4"].render} \n" \
+        "B #{@player_board.cells["B1"].render} #{@player_board.cells["B2"].render} #{@player_board.cells["B3"].render} #{@player_board.cells["B4"].render} \n" \
+        "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
+        "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
+        
+        player_cruiser_placement 
+        @player_board.place(@player_cruiser, @player_cruiser_coords_valid)
+        
+        player_submarine_placement
+        @player_board.place(@player_submarine, @player_submarine_coords_valid)
+        
+        full_turn
+        Game.new.start
+        
     end
 end
