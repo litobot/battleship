@@ -91,6 +91,17 @@ class Game
         @cpu_board.cells[@player_target_coords_valid].fire_upon
     end
 
+    def cpu_shot
+        all_coordinates = @player_board.cells.keys
+
+        unhit_coordinates = all_coordinates.reject do |coord|
+            @player_board.cells[coord].fired_upon?
+        end
+
+        target = unhit_coordinates.sample
+        @player_board.cells[target].fire_upon
+    end
+
     def play
         
         cpu_placement
@@ -121,7 +132,10 @@ class Game
             "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
             "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
         
-            player_shot
+        player_shot
+        cpu_shot
+
+
 
     end
 end
