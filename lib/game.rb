@@ -4,6 +4,7 @@ class Game
 
     attr_reader :player_cruiser_coords_valid,
                 :player_submarine_coords_valid
+                :player_target_coords_valid
 
     def initialize
         @player_cruiser = Ship.new("Cruiser", 3)
@@ -57,7 +58,7 @@ class Game
     
     end
 
-    def player_cruiser_placement #bug: need to enter coordiantes twice
+    def player_cruiser_placement 
         puts "Enter the squares for the Cruiser (3 spaces) (ie: A1 A2 A3): "    
         player_cruiser_coords = gets.chomp.upcase.split(" ")
         until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords)
@@ -68,7 +69,7 @@ class Game
         @player_cruiser_coords_valid = player_cruiser_coords
     end
 
-    def player_submarine_placement #bug: need to enter coordiantes twice
+    def player_submarine_placement 
         puts "Enter the squares for the subamrine (2 spaces) (ie: A1 A2): "    
         player_submarine_coords = gets.chomp.upcase.split(" ")
         until @player_board.valid_placement?(@player_submarine, player_submarine_coords)
@@ -77,6 +78,17 @@ class Game
             player_submarine_coords = gets.chomp.upcase.split(" ")
         end
         @player_submarine_coords_valid = player_submarine_coords
+    end
+
+    def player_shot
+        puts "Enter the coordinates of the shot (ie: A1): "
+        player_target_coords = gets.chomp.upcase
+        until @cpu_board.valid_shot?(player_target_coords)
+            puts "Invalid target coordinate! Please try again:"
+            player_target_coords = gets.chomp.upcase
+        end
+        @player_target_coords_valid = player_target_coords
+        @cpu_board.cells[@player_target_coords_valid].fire_upon
     end
 
     def play
@@ -108,6 +120,8 @@ class Game
             "B #{@player_board.cells["B1"].render} #{@player_board.cells["B2"].render} #{@player_board.cells["B3"].render} #{@player_board.cells["B4"].render} \n" \
             "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
             "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
-    
+        
+            player_shot
+
     end
 end
