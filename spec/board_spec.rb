@@ -10,7 +10,6 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board).to be_an_instance_of(Board)
-
     end
   end
 
@@ -20,7 +19,6 @@ RSpec.describe Board do
 
       expect(board.validate_coordinate?("A1")).to eq(true)
       expect(board.validate_coordinate?("G7")).to eq(false)
-
     end 
   end
 
@@ -29,7 +27,6 @@ RSpec.describe Board do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
-
 
         expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq(false)
         expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
@@ -41,8 +38,6 @@ RSpec.describe Board do
         board = Board.new
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2)
-
-        
 
         expect(board.valid_placement?(cruiser, ["A1", "A1"])).to eq(false)
         expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
@@ -78,7 +73,6 @@ RSpec.describe Board do
 
         expect(board.consecutive_rows?(rowsAB)).to eq(true)
         expect(board.consecutive_rows?(rowsAD)).to eq(false)
-
       end
 
       it 'can make sure columns are consecutive' do
@@ -88,7 +82,6 @@ RSpec.describe Board do
         
         expect(board.consecutive_columns?(cols12)).to eq(true)
         expect(board.consecutive_columns?(cols13)).to eq(false)
-        
       end
       
       it 'shows ships cannot overlap' do
@@ -112,17 +105,8 @@ RSpec.describe Board do
         cruiser = Ship.new("Cruiser", 3)
         submarine = Ship.new("Submarine", 2) 
 
-        # Placing the cruiser on these coordinates should render them unavailable
-          # for further placement by the submarine.
-        # How do we tag these coordinates as "unavailable"?
-          # Do we modify the original @cells hash key/values with "S"?
-            # --> So that when they are passed a second time they no longer exist??
-              # --> And therefore cannot be validated?
-                # Is that why we needed the bit above with cell_1/2/3?
         board.place(cruiser, ["A1", "A2", "A3"])
 
-
-        # "A1" is already occupied and this attempt should return `false`.
         expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
       end
     end
