@@ -110,6 +110,8 @@ class Game
     def player_turn_result
         if @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
             puts "Your shot on #{@player_target_coords_valid} was a hit!"
+        elsif @cpu_cruiser_location.include?(@player_target_coords_valid) && @cpu_cruiser.sunk? || @cpu_submarine_location.include?(@player_target_coords_valid) && @cpu_submarine.sunk?
+            puts "Your shot on #{@player_target_coords_valid} was a sunk ship!"
         else
             puts "Your shot on #{@player_target_coords_valid} was a miss!"
         end
@@ -118,6 +120,8 @@ class Game
     def cpu_turn_result
         if @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
             puts "My shot on #{@cpu_shot_valid} was a hit!"
+        elsif @player_cruiser_coords_valid.include?(@cpu_shot_valid) && @player_cruiser.sunk? || @player_submarine_coords_valid.include?(@cpu_shot_valid) && @player_submarine.sunk?
+            puts "My shot on #{@cpu_shot_valid} was a sunk ship!"
         else
             puts "My shot on #{@pcpu_shot_valid} was a miss!"
         end
