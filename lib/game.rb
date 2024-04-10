@@ -5,6 +5,9 @@ class Game
     attr_reader :player_cruiser_coords_valid,
                 :player_submarine_coords_valid
                 :player_target_coords_valid
+                :cpu_cruiser_location
+                :cpu_submarine_location
+                :cpu_shot_valid
 
     def initialize
         @player_cruiser = Ship.new("Cruiser", 3)
@@ -25,7 +28,7 @@ class Game
         cords = board_cells.sample(num_of_cords)
         end
         @cpu_board.place(@cpu_cruiser, cords)
-
+        @cpu_cruiser_location = cords
     end
 
     def cpu_sub_placement(num_of_cords)
@@ -36,6 +39,7 @@ class Game
         cords = board_cells.sample(num_of_cords)
         end
         @cpu_board.place(@cpu_submarine, cords)
+        @cpu_submarine_location = cords
     end
 
     def cpu_placement
@@ -100,6 +104,23 @@ class Game
 
         target = unhit_coordinates.sample
         @player_board.cells[target].fire_upon
+        @cpu_shot_valid = target
+    end
+
+    def player_turn_result
+        if @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
+            puts "Your shot on #{@player_target_coords_valid} was a hit!"
+        else
+            puts "Your shot on #{@player_target_coords_valid} was a miss!"
+        end
+    end
+
+    def cpu_turn_result
+        if @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
+            puts "My shot on #{@cpu_shot_valid} was a hit!"
+        else
+            puts "My shot on #{@pcpu_shot_valid} was a miss!"
+        end
     end
 
     def play
@@ -134,6 +155,9 @@ class Game
         
         player_shot
         cpu_shot
+
+        player_turn_result
+        cpu_turn_result
 
 
 
