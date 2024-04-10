@@ -4,6 +4,10 @@ class Game
 
     attr_reader :player_cruiser_coords_valid,
                 :player_submarine_coords_valid
+                :player_target_coords_valid
+                :cpu_cruiser_location
+                :cpu_submarine_location
+                :cpu_shot_valid
 
     def initialize
         @player_cruiser = Ship.new("Cruiser", 3)
@@ -24,7 +28,7 @@ class Game
         cords = board_cells.sample(num_of_cords)
         end
         @cpu_board.place(@cpu_cruiser, cords)
-
+        @cpu_cruiser_location = cords
     end
 
     def cpu_sub_placement(num_of_cords)
@@ -35,6 +39,7 @@ class Game
         cords = board_cells.sample(num_of_cords)
         end
         @cpu_board.place(@cpu_submarine, cords)
+        @cpu_submarine_location = cords
     end
 
     def cpu_placement
@@ -57,7 +62,7 @@ class Game
     
     end
 
-    def player_cruiser_placement #bug: need to enter coordiantes twice
+    def player_cruiser_placement 
         puts "Enter the squares for the Cruiser (3 spaces) (ie: A1 A2 A3): "    
         player_cruiser_coords = gets.chomp.upcase.split(" ")
         until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords)
@@ -68,7 +73,7 @@ class Game
         @player_cruiser_coords_valid = player_cruiser_coords
     end
 
-    def player_submarine_placement #bug: need to enter coordiantes twice
+    def player_submarine_placement 
         puts "Enter the squares for the subamrine (2 spaces) (ie: A1 A2): "    
         player_submarine_coords = gets.chomp.upcase.split(" ")
         until @player_board.valid_placement?(@player_submarine, player_submarine_coords)
@@ -77,6 +82,49 @@ class Game
             player_submarine_coords = gets.chomp.upcase.split(" ")
         end
         @player_submarine_coords_valid = player_submarine_coords
+    end
+
+    def player_shot
+        puts "Enter the coordinates of the shot (ie: A1): "
+        player_target_coords = gets.chomp.upcase
+        until @cpu_board.valid_shot?(player_target_coords)
+            puts "Invalid target coordinate! Please try again:"
+            player_target_coords = gets.chomp.upcase
+        end
+        @player_target_coords_valid = player_target_coords
+        @cpu_board.cells[@player_target_coords_valid].fire_upon
+    end
+
+    def cpu_shot
+        all_coordinates = @player_board.cells.keys
+
+        unhit_coordinates = all_coordinates.reject do |coord|
+            @player_board.cells[coord].fired_upon?
+        end
+
+        target = unhit_coordinates.sample
+        @player_board.cells[target].fire_upon
+        @cpu_shot_valid = target
+    end
+
+    def player_turn_result
+        if @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
+            puts "Your shot on #{@player_target_coords_valid} was a hit!"
+        elsif @cpu_cruiser_location.include?(@player_target_coords_valid) && @cpu_cruiser.sunk? || @cpu_submarine_location.include?(@player_target_coords_valid) && @cpu_submarine.sunk?
+            puts "Your shot on #{@player_target_coords_valid} was a sunk ship!"
+        else
+            puts "Your shot on #{@player_target_coords_valid} was a miss!"
+        end
+    end
+
+    def cpu_turn_result
+        if @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
+            puts "My shot on #{@cpu_shot_valid} was a hit!"
+        elsif @player_cruiser_coords_valid.include?(@cpu_shot_valid) && @player_cruiser.sunk? || @player_submarine_coords_valid.include?(@cpu_shot_valid) && @player_submarine.sunk?
+            puts "My shot on #{@cpu_shot_valid} was a sunk ship!"
+        else
+            puts "My shot on #{@pcpu_shot_valid} was a miss!"
+        end
     end
 
     def play
@@ -98,5 +146,24 @@ class Game
         player_submarine_placement
         @player_board.place(@player_submarine, @player_submarine_coords_valid)
         
+        puts "=============COMPUTER BOARD============= \n" \
+            "A #{@cpu_board.cells["A1"].render} #{@cpu_board.cells["A2"].render} #{@cpu_board.cells["A3"].render} #{@cpu_board.cells["A4"].render} \n" \
+            "B #{@cpu_board.cells["B1"].render} #{@cpu_board.cells["B2"].render} #{@cpu_board.cells["B3"].render} #{@cpu_board.cells["B4"].render} \n" \
+            "C #{@cpu_board.cells["C1"].render} #{@cpu_board.cells["C2"].render} #{@cpu_board.cells["C3"].render} #{@cpu_board.cells["C4"].render} \n" \
+            "D #{@cpu_board.cells["D1"].render} #{@cpu_board.cells["D2"].render} #{@cpu_board.cells["D3"].render} #{@cpu_board.cells["D4"].render} \n" \
+            "==============PLAYER BOARD============== \n" \
+            "A #{@player_board.cells["A1"].render} #{@player_board.cells["A2"].render} #{@player_board.cells["A3"].render} #{@player_board.cells["A4"].render} \n" \
+            "B #{@player_board.cells["B1"].render} #{@player_board.cells["B2"].render} #{@player_board.cells["B3"].render} #{@player_board.cells["B4"].render} \n" \
+            "C #{@player_board.cells["C1"].render} #{@player_board.cells["C2"].render} #{@player_board.cells["C3"].render} #{@player_board.cells["C4"].render} \n" \
+            "D #{@player_board.cells["D1"].render} #{@player_board.cells["D2"].render} #{@player_board.cells["D3"].render} #{@player_board.cells["D4"].render} \n" \
+        
+        player_shot
+        cpu_shot
+
+        player_turn_result
+        cpu_turn_result
+
+
+
     end
 end

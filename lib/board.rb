@@ -75,6 +75,10 @@ class Board
     end
   end
 
+  def valid_shot?(coordinate)
+    @cells.has_key?(coordinate)
+  end
+
   def consecutive_rows?(rows)
     # Convert row letters to numbers to check if they are consecutive.
     row_nums = rows.map { |row| row.ord }
