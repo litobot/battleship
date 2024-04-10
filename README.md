@@ -4,11 +4,11 @@
 
 1. Iteration 3 did not provide an interaction pattern. How did you approach designing this iteration? If you did not get to Iteration 3, reflect on how you think you would’ve approached the design and problem solving process.
 
-   We tried to follow the flow of how a game would work. And organize the requirements into smaller chunks that made sense to make methods out of. We used our knowledge of how the game works and what we built to fill in the gaps
+   We made an outline and tried to follow the flow of how a game would work. And organize the requirements into smaller chunks that made sense to make methods out of. We used our knowledge of how the game works and what we built to fill in the gaps
 
 2. If you had one more day to work on this project, what would you work on?
 
-   We would refactor our CPU placement along with our Player Placement could be refactored. It would also be fun to expand the board to be 8x8 and have more ships. One big stretch goal would be to give the cpu some logic so it would try better to sink shits after landing a hit
+   We would add a sort method so that player input could be in any order when placing ships. Also, we would refactor our CPU placement along with our Player Placement could be refactored. It would also be fun to expand the board to be 8x8 and have more ships. One big stretch goal would be to give the CPU some logic so it would try better to sink shits after landing a hit
  
 3. Describe the pairing techniques you used while working on this project.
 
