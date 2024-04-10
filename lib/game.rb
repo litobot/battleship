@@ -95,21 +95,21 @@ class Game
         @cpu_shot_valid = target
     end
     
-    def player_turn_result #message not returning sunk ship
-        if @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
-            puts "Your shot on #{@player_target_coords_valid} was a hit!"
-        elsif @cpu_cruiser_location.include?(@player_target_coords_valid) && @cpu_cruiser.sunk? || @cpu_submarine_location.include?(@player_target_coords_valid) && @cpu_submarine.sunk?
+    def player_turn_result 
+        if @cpu_cruiser_location.include?(@player_target_coords_valid) && @cpu_cruiser.sunk? || @cpu_submarine_location.include?(@player_target_coords_valid) && @cpu_submarine.sunk?
             puts "Your shot on #{@player_target_coords_valid} was a sunk ship!"
+        elsif @cpu_cruiser_location.include?(@player_target_coords_valid) || @cpu_submarine_location.include?(@player_target_coords_valid)
+            puts "Your shot on #{@player_target_coords_valid} was a hit!"
         else
             puts "Your shot on #{@player_target_coords_valid} was a miss!"
         end
     end
     
     def cpu_turn_result
-        if @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
-            puts "My shot on #{@cpu_shot_valid} was a hit!"
-        elsif @player_cruiser_coords_valid.include?(@cpu_shot_valid) && @player_cruiser.sunk? || @player_submarine_coords_valid.include?(@cpu_shot_valid) && @player_submarine.sunk?
+        if @player_cruiser_coords_valid.include?(@cpu_shot_valid) && @player_cruiser.sunk? || @player_submarine_coords_valid.include?(@cpu_shot_valid) && @player_submarine.sunk?
             puts "My shot on #{@cpu_shot_valid} was a sunk ship!"
+        elsif @player_cruiser_coords_valid.include?(@cpu_shot_valid) || @player_submarine_coords_valid.include?(@cpu_shot_valid)
+            puts "My shot on #{@cpu_shot_valid} was a hit!"
         else
             puts "My shot on #{@cpu_shot_valid} was a miss!"
         end
@@ -142,9 +142,6 @@ class Game
     end
     
     def start
-
-        # until start_answer = q
-
         puts "Welcome to the Battleship Game!"
         puts 'Enter p to play. Enter q to quit.'
         
@@ -153,9 +150,7 @@ class Game
             play
         elsif start_answer == 'q'
             puts "Thanks for playing!"
-        end    
-
-        
+        end
     end
 
     def play
@@ -177,9 +172,8 @@ class Game
         player_submarine_placement
         @player_board.place(@player_submarine, @player_submarine_coords_valid)
         
-        # setup is over everything below is one turn of the game
-        
         full_turn
+        Game.new.start
         
     end
 end
