@@ -55,22 +55,22 @@ class Game
     
     def player_cruiser_placement 
         puts "Enter the squares for the Cruiser (3 spaces) (ie: A1 A2 A3): "    
-        player_cruiser_coords = gets.chomp.upcase.split(" ")
+        player_cruiser_coords = gets.chomp.upcase.split(" ").sort
         until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords)
             
             puts "Invalid placement! Please try again:"
-            player_cruiser_coords = gets.chomp.upcase.split(" ")
+            player_cruiser_coords = gets.chomp.upcase.split(" ").sort
         end 
         @player_cruiser_coords_valid = player_cruiser_coords
     end
     
     def player_submarine_placement 
         puts "Enter the squares for the subamrine (2 spaces) (ie: A1 A2): "    
-        player_submarine_coords = gets.chomp.upcase.split(" ")
+        player_submarine_coords = gets.chomp.upcase.split(" ").sort
         until @player_board.valid_placement?(@player_submarine, player_submarine_coords)
             
             puts "Invalid placement! Please try again:"
-            player_submarine_coords = gets.chomp.upcase.split(" ")
+            player_submarine_coords = gets.chomp.upcase.split(" ").sort
         end
         @player_submarine_coords_valid = player_submarine_coords
     end
