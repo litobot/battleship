@@ -21,34 +21,37 @@ class Game
 
     
     def cpu_cruiser_placement(num_of_cords)
-        board_cells = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
+        board_cells = ["A1", "A2", "A3", "A4",
+                        "B1", "B2", "B3", "B4",
+                        "C1", "C2", "C3", "C4",
+                        "D1", "D2", "D3", "D4"]
 
-        cords = board_cells.sample(num_of_cords)
-        until @cpu_board.valid_placement?(@cpu_cruiser, cords)
-        cords = board_cells.sample(num_of_cords)
+        coords = board_cells.sample(num_of_cords)
+        until @cpu_board.valid_placement?(@cpu_cruiser, coords)
+        coords = board_cells.sample(num_of_cords)
         end
-        @cpu_board.place(@cpu_cruiser, cords)
-        @cpu_cruiser_location = cords
+        @cpu_board.place(@cpu_cruiser, coords)
+        @cpu_cruiser_location = coords
     end
 
     def cpu_sub_placement(num_of_cords)
-        board_cells = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
+        board_cells = ["A1", "A2", "A3", "A4",
+                        "B1", "B2", "B3", "B4",
+                        "C1", "C2", "C3", "C4",
+                        "D1", "D2", "D3", "D4"]
 
-        cords = board_cells.sample(num_of_cords)
-        until @cpu_board.valid_placement?(@cpu_submarine, cords)
-        cords = board_cells.sample(num_of_cords)
+        coords = board_cells.sample(num_of_cords)
+        until @cpu_board.valid_placement?(@cpu_submarine, coords)
+        coords = board_cells.sample(num_of_cords)
         end
-        @cpu_board.place(@cpu_submarine, cords)
-        @cpu_submarine_location = cords
+        @cpu_board.place(@cpu_submarine, coords)
+        @cpu_submarine_location = coords
     end
 
     def cpu_placement
-        #need coordinates, either 2 or 3
         cpu_cruiser_placement(@cpu_cruiser.length)
         cpu_sub_placement(@cpu_submarine.length)
-        
     end
-    
     
     def player_cruiser_placement 
         puts "Enter the squares for the Cruiser (3 spaces) (ie: A1 A2 A3): "    
@@ -85,11 +88,9 @@ class Game
     
     def cpu_shot
         all_coordinates = @player_board.cells.keys
-        
         unhit_coordinates = all_coordinates.reject do |coord|
             @player_board.cells[coord].fired_upon?
         end
-        
         target = unhit_coordinates.sample
         @player_board.cells[target].fire_upon
         @cpu_shot_valid = target
